@@ -1,12 +1,14 @@
 ﻿using Domain;
 using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.Domain
@@ -16,9 +18,11 @@ namespace WebAPI.Controllers.Domain
     public class EnergyRessourceController : ControllerBase
     {
         private ApplicationDbContext applicationDbContext;
-        public EnergyRessourceController(ApplicationDbContext applicationDbContext)
+        private UserManager<ApplicationUser> userManager;
+        public EnergyRessourceController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             this.applicationDbContext = applicationDbContext;
+            this.userManager = userManager;
         }
         [HttpGet("allOffers")]
         public async Task<ActionResult> GetAllEnergyRessoucesToBeBought()
@@ -54,6 +58,19 @@ namespace WebAPI.Controllers.Domain
             };
             applicationDbContext.EnergyRessources.Add(energyRessource);
             await applicationDbContext.SaveChangesAsync();
+            return Ok();
+        }
+        [HttpPost("buyEnergyRessource/{energyRessourceId}")]
+        public async Task<ActionResult> BuyEnergyRessource(Guid energyRessourceId)
+        {
+            ApplicationUser applicationUser = await userManager.FindByIdAsync(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            EnergyRessource energyRessource = applicationDbContext.EnergyRessources
+                                                        .Single(x => x.Id == energyRessourceId);
+            
+            energyRessource.Consumer = applicationUser;
+            await applicationDbContext.SaveChangesAsync();
+
             return Ok();
         }
     }

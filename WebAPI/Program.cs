@@ -2,11 +2,13 @@ using Azure.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebAPI.BackgroundServices;
 
 namespace WebAPI
 {
@@ -21,6 +23,10 @@ namespace WebAPI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.ConfigureServices((hostContext, services) =>
+                    {
+                        services.AddHostedService<PricingBackgroundService>();
+                    });
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         config.AddAzureKeyVault(new Uri("https://justrollkeyvault.vault.azure.net/"),
