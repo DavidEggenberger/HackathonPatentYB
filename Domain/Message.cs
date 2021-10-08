@@ -9,6 +9,5 @@ namespace Domain
         public Guid Id { get; set; }
         public DateTime SentTime { get; set; }
         public string Content { get; set; }
-        
     }
 }

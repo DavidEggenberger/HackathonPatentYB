@@ -238,7 +238,7 @@ namespace WebAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<DefaultHub>("/hub");
+                endpoints.MapHub<PriceHub>("/pricehub");
                 endpoints.MapControllers();
                 endpoints.MapRazorPages();
                 endpoints.MapFallbackToFile("index.html");

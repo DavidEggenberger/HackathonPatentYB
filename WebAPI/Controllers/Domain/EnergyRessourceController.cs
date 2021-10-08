@@ -46,6 +46,8 @@ namespace WebAPI.Controllers.Domain
         [HttpPost]
         public async Task<ActionResult> CreateNew(EnergyRessourceDTO energyRessourceDTO)
         {
+            ApplicationUser applicationUser = await userManager.FindByIdAsync(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
             EnergyRessource energyRessource = new EnergyRessource()
             {
                 Duration = energyRessourceDTO.Duration,
@@ -54,10 +56,10 @@ namespace WebAPI.Controllers.Domain
                 Price = energyRessourceDTO.Price,
                 Source = energyRessourceDTO.Source,
                 ProductionNight = energyRessourceDTO.ProductionNight,
-                ProducerId = energyRessourceDTO.ProducerId
+                ProducerId = applicationUser.Id
             };
             applicationDbContext.EnergyRessources.Add(energyRessource);
-            await applicationDbContext.SaveChangesAsync();
+            int i = await applicationDbContext.SaveChangesAsync();
             return Ok();
         }
         [HttpPost("buyEnergyRessource/{energyRessourceId}")]
@@ -68,6 +70,11 @@ namespace WebAPI.Controllers.Domain
             EnergyRessource energyRessource = applicationDbContext.EnergyRessources
                                                         .Single(x => x.Id == energyRessourceId);
             
+            if(applicationUser.Tokens < energyRessource.Price)
+            {
+                return BadRequest();
+            }
+
             energyRessource.Consumer = applicationUser;
             await applicationDbContext.SaveChangesAsync();
 
