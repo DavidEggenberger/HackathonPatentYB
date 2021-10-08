@@ -22,17 +22,17 @@ namespace WebAPI
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.ConfigureServices((hostContext, services) =>
-                    {
-                        services.AddHostedService<PricingBackgroundService>();
-                    });
+                {        
                     webBuilder.ConfigureAppConfiguration((hostingContext, config) =>
                     {
                         config.AddAzureKeyVault(new Uri("https://justrollkeyvault.vault.azure.net/"),
                             new DefaultAzureCredential(new DefaultAzureCredentialOptions { ManagedIdentityClientId = "74653585-5458-4355-9c20-f25a86c255" }));
                     });
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.ConfigureServices((hostContext, services) =>
+                    {
+                        services.AddHostedService<PricingBackgroundService>();
+                    });
                 });
     }
 }

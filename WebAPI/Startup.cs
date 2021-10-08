@@ -155,7 +155,7 @@ namespace WebAPI
                             Scopes = new List<string> {"API"}
                         }
                     };
-                    var cert = options.SigningCredential = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes("David Eggenberger Security key very long very secure")), SecurityAlgorithms.HmacSha256);
+                    var cert = options.SigningCredential = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["SigninKey"])), SecurityAlgorithms.HmacSha256);
                 })
                 .AddProfileService<ProfileService>();
             }
@@ -181,15 +181,13 @@ namespace WebAPI
                         },
                         RedirectUris =
                             {
-                                "https://localhost:44313/authentication/login-callback",
-                                "https://localhost:44313/authentication/login-callback"
+                                "https://patentyb.azurewebsites.net/authentication/login-callback"
                             },
                         PostLogoutRedirectUris =
                             {
-                                "https://localhost:44313",
-                                "https://localhost:44313",
+                                "https://patentyb.azurewebsites.net"
                             },
-                        FrontChannelLogoutUri = "https://localhost:44313"
+                        FrontChannelLogoutUri = "https://patentyb.azurewebsites.net"
                     });
                     options.ApiResources = new ApiResourceCollection
                     {
@@ -199,7 +197,7 @@ namespace WebAPI
                             Scopes = new List<string> {"API"}
                         }
                     };
-                    var cert = options.SigningCredential = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes("David Eggenberger Security key very long very secure")), SecurityAlgorithms.HmacSha256);
+                    var cert = options.SigningCredential = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["SigninKey"])), SecurityAlgorithms.HmacSha256);
                 })
                 .AddProfileService<ProfileService>();
             }
