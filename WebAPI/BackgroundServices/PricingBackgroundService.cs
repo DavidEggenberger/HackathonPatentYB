@@ -5,7 +5,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using System.Timers;
 using System.Threading.Tasks;
 using WebAPI.Hubs;
 
@@ -20,11 +20,16 @@ namespace WebAPI.BackgroundServices
             this.serviceProvider = serviceProvider;
             this.priceHub = priceHub;
         }
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(System.Threading.CancellationToken stoppingToken)
         {
             using IServiceScope iServiceScope = serviceProvider.CreateScope();
             ApplicationDbContext applicationDbContext = iServiceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                await Task.Delay(1000);
+
+            }
         }
     }
 }

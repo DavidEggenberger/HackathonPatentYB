@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.Domain
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ApplicationUserController : ControllerBase
