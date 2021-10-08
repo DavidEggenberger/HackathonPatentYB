@@ -55,13 +55,10 @@ namespace WebAPI
             });
             services.AddSingleton<IUserIdProvider, UserIdProvider>();
             #region EF Core Registration
-            if (webHostEnvironment.IsDevelopment())
+            services.AddDbContext<ApplicationDbContext>(options =>
             {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                {
-                    options.UseSqlServer(Configuration["AzureSQLConnection"]);
-                });
-            }
+                options.UseSqlServer(Configuration["AzureSQLConnection"]);
+            });
             #endregion
             #region ASP.NET Core Identity Registration
             services.AddAuthentication(options =>
