@@ -233,6 +233,7 @@ namespace WebAPI
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors();
 
             app.UseIdentityServer();
             app.UseAuthentication();
