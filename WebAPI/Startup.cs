@@ -54,6 +54,10 @@ namespace WebAPI
                 });
             });
             services.AddSingleton<IUserIdProvider, UserIdProvider>();
+            services.AddApplicationInsightsTelemetry(options =>
+            {
+                options.InstrumentationKey = Configuration["ApplicationInsightsInstrumentationKey"];
+            });
             #region EF Core Registration
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -215,6 +219,7 @@ namespace WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseHsts();
             }
             else
             {

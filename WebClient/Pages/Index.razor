@@ -1,12 +1,45 @@
 ﻿@page "/"
+@inject NavigationManager NavigationManager
+@inject IAccessTokenProvider tokenProvider
+@inject HttpClient httpClient
+
+<CascadingValue Value="hubConnection">
+    <AuthorizeView>
+        <NotAuthorized>
+            <h1>Please Login</h1>
+        </NotAuthorized>
+        <Authorized>
+            <MarketplaceComponent />
+        </Authorized>
+    </AuthorizeView>
+</CascadingValue>
 
 
-<AuthorizeView>
-    <NotAuthorized>
-        <h1>Please Login</h1>
-    </NotAuthorized>
-    <Authorized>
-        <MarketplaceComponent/>
-    </Authorized>
-</AuthorizeView>
+@code{
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+    private HubConnection hubConnection;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ClaimsPrincipal cp;
+        if ((cp = (await AuthState).User).Identity.IsAuthenticated)
+        {
+            AccessToken token = new AccessToken();
+
+            (await tokenProvider.RequestAccessToken()).TryGetToken(out token);
+
+            if (token is not null)
+            {
+                hubConnection = new HubConnectionBuilder()
+                .WithUrl(NavigationManager.ToAbsoluteUri("/pricehub"), options =>
+                {
+                    options.AccessTokenProvider = async () => token.Value;
+                })
+                .Build();
+                await hubConnection.StartAsync();
+            }
+        }
+    }
+}
 
