@@ -1,0 +1,7 @@
+nav{
+    padding-right: 15px;
+}
+main{
+    padding: 15px;
+    height: calc(100% - 80px);
+}

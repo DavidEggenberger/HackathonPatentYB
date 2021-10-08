@@ -13,6 +13,8 @@ namespace Domain
         public decimal Tokens { get; set; }
         public string Address { get; set; }
         public string PictureUri { get; set; }
+        //public bool IsOnline { get; set; }
+        //public int TabsOpen { get; set; }
         public List<EnergyRessource> EnergyRessourcesProduced { get; set; }
         public List<EnergyRessource> EnergyRessourcesConsumed { get; set; }
         public List<ApplicationUserFollowerPair> UsersFollowing { get; set; }

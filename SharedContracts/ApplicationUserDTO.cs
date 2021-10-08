@@ -6,6 +6,7 @@ namespace SharedContracts
 {
     public class ApplicationUserDTO
     {
+        public string Id { get; set; }
         public string EnergySupplier { get; set; }
         public decimal Tokens { get; set; }
         public string Address { get; set; }

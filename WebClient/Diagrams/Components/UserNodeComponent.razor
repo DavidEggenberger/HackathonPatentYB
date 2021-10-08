@@ -1,0 +1,28 @@
+﻿@inject HttpClient httpClient
+
+<div class="card">
+    <div class="card-body" style="height: 390px;">
+        <h2>YOU</h2>
+    </div>
+    <div style="width: 100%; display: grid; place-items: center;">
+        @foreach (var port in Node.Ports)
+        {
+            <!-- Default ports -->
+            <PortRenderer Port="port" />
+        }
+    </div>
+</div>
+
+
+@code{
+    [CascadingParameter(Name = "hubConnection")]
+    public HubConnection hubConnection { get; set; }
+    
+    [Parameter]
+    public UserNode Node { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+    }
+}

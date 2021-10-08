@@ -1,17 +1,15 @@
 ﻿@inject HttpClient httpClient
 
-<h3>Your Coins: @currentUserDTO?.Tokens</h3>
+<div class="container">
+    <div class="UserInfoComponentContainer">
 
-@foreach (var item in applicationUserDTOs)
-{
-    <p>@item.UserName</p>
-}
-@foreach (var item in energyRessourceDTOs)
-{
-    <EnergyRessourceComponent RessourceDto="item"/>
-}
-
-<CreateEnergyRessourceComponent/>
+    </div>
+    <div class="diagramContainer">
+        <CascadingValue Value="diagram">
+            <DiagramCanvas></DiagramCanvas>
+        </CascadingValue>
+    </div> 
+</div>
 
 @code{
     [CascadingParameter]
@@ -19,6 +17,7 @@
     [CascadingParameter]
     public HubConnection HubConnection { get; set; }
 
+    private Diagram diagram = new Diagram();
     private ApplicationUserDTO currentUserDTO = new ApplicationUserDTO();
     private List<ApplicationUserDTO> applicationUserDTOs = new List<ApplicationUserDTO>();
     private List<EnergyRessourceDTO> energyRessourceDTOs = new List<EnergyRessourceDTO>();
@@ -26,6 +25,41 @@
     protected override async Task OnInitializedAsync()
     {
         await GetData();
+
+        var options = new DiagramOptions
+        {
+            DeleteKey = "Delete",
+            DefaultNodeComponent = null,
+            AllowMultiSelection = true,
+            AllowPanning = false,
+            Zoom = new DiagramZoomOptions
+            {
+                Enabled = false
+            },
+            Links = new DiagramLinkOptions
+            {
+                DefaultColor = "white"
+            }
+        };
+        diagram = new Diagram(options);
+        diagram.Links.Added += b =>
+        {
+            b.TargetPortChanged += (bt, old, niw) =>
+            {
+                ((UserNode)bt.SourcePort.Parent).ConsumeRessource(((EnergyRessourceNode)bt.TargetPort.Parent).Ressource);
+                StateHasChanged();
+            };
+        };
+        diagram.RegisterModelComponent<EnergyRessourceNode, EnergyRessourceNodeComponent>();
+        diagram.RegisterModelComponent<UserNode, UserNodeComponent>();
+
+        foreach (var ressource in energyRessourceDTOs)
+        {
+            Random rnd = new Random();
+            diagram.Nodes.Add(new EnergyRessourceNode());
+        }
+
+        diagram.Nodes.Add(new UserNode(httpClient) { ApplicationUser = currentUserDTO });
 
         HubConnection.On("Update", async () =>
         {
