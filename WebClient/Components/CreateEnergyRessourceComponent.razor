@@ -1,0 +1,35 @@
+﻿@inject HttpClient httpClient
+
+<div class="createEnergyRessourceContainer">
+    <h2>Sell your electricity:</h2>
+    <EditForm Model="energyRessourceDTO">
+        <label>Source:</label>
+        <input @bind="energyRessourceDTO.Source"/>
+        <label>Price:</label>
+        <input @bind="energyRessourceDTO.Price" type="number"/>
+        <label>ProductionDaySunny:</label>
+        <input @bind="energyRessourceDTO.ProductionDaySunny" type="number"/>
+        <label>ProductionDayRainny:</label>
+        <input @bind="energyRessourceDTO.ProductionDayRainny" type="number"/>
+        <label>ProductionNight:</label>
+        <input @bind="energyRessourceDTO.ProductionNight" type="number"/>
+        <label>Duration:</label>
+        <input @bind="energyRessourceDTO.Duration" type="number"/>
+    </EditForm>
+    <button @onclick="async() => await Post()">Create</button>
+</div>
+
+
+@code{
+    EnergyRessourceDTO energyRessourceDTO;
+
+    protected override async Task OnInitializedAsync()
+    {
+        energyRessourceDTO = new EnergyRessourceDTO();
+    }
+
+    public async Task Post()
+    {
+        await httpClient.PostAsJsonAsync("/api/energyRessource", energyRessourceDTO);
+    }
+}
