@@ -82,6 +82,17 @@ namespace WebAPI
                         return Task.CompletedTask;
                     };
                 })
+                .AddGitHub(options =>
+                {
+                    options.ClientId = Configuration["GitHubClientId"];
+                    options.ClientSecret = Configuration["GitHubClientSecret"];
+                    options.Events.OnCreatingTicket = context =>
+                    {
+                        string picUri = context.User.GetProperty("avatar_url").GetString();
+                        context.Identity.AddClaim(new Claim("picture", picUri));
+                        return Task.CompletedTask;
+                    };
+                })
                 .AddPolicyScheme("ApplicationDefinedAuthentication", null, options =>
                 {
                     options.ForwardDefaultSelector = (context) =>
