@@ -17,5 +17,6 @@ namespace Domain
         public List<EnergyRessource> EnergyRessourcesConsumed { get; set; }
         public List<ApplicationUserFollowerPair> UsersFollowing { get; set; }
         public List<ApplicationUserFollowerPair> UsersFollowedBy { get; set; }
+        public void SetUp() => Tokens = 500;
     }
 }

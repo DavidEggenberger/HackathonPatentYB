@@ -2,12 +2,14 @@
 using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers.Domain
@@ -17,10 +19,19 @@ namespace WebAPI.Controllers.Domain
     public class ApplicationUserController : ControllerBase
     {
         private ApplicationDbContext applicationDbContext;
-        public ApplicationUserController(ApplicationDbContext applicationDbContext)
+        private UserManager<ApplicationUser> userManager;
+        public ApplicationUserController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             this.applicationDbContext = applicationDbContext;
+            this.userManager = userManager;
         }
+        [HttpGet]
+        public async Task<ActionResult> GetTokensPerUser()
+        {
+            ApplicationUser applicationUser = await userManager.FindByIdAsync(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return Ok(applicationUser);
+        }
+
         [HttpGet("all")]
         public async Task<ActionResult> GetAllUsers()
         {

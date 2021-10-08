@@ -1,25 +1,40 @@
 ﻿@inject HttpClient httpClient
 
+<h3>Your Coins: @currentUserDTO?.Tokens</h3>
+
 @foreach (var item in applicationUserDTOs)
 {
     <p>@item.UserName</p>
 }
-
 @foreach (var item in energyRessourceDTOs)
 {
-    <p>@item.Source</p>
+    <EnergyRessourceComponent RessourceDto="item"/>
 }
+
 <CreateEnergyRessourceComponent/>
 
 @code{
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
+    [CascadingParameter]
+    public HubConnection HubConnection { get; set; }
 
+    private ApplicationUserDTO currentUserDTO = new ApplicationUserDTO();
     private List<ApplicationUserDTO> applicationUserDTOs = new List<ApplicationUserDTO>();
     private List<EnergyRessourceDTO> energyRessourceDTOs = new List<EnergyRessourceDTO>();
 
     protected override async Task OnInitializedAsync()
     {
+        await GetData();
+
+        HubConnection.On("Update", async () =>
+        {
+            await GetData();
+        });
+    }
+    public async Task GetData()
+    {
+        currentUserDTO = await httpClient.GetFromJsonAsync<ApplicationUserDTO>("/api/applicationUser");
         applicationUserDTOs = await httpClient.GetFromJsonAsync<List<ApplicationUserDTO>>("/api/applicationUser/all");
         energyRessourceDTOs = await httpClient.GetFromJsonAsync<List<EnergyRessourceDTO>>("/api/energyRessource/allOffers");
     }

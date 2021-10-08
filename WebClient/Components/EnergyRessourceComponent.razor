@@ -1,0 +1,17 @@
+﻿@inject HttpClient httpClient
+
+<div>
+    <h7>@RessourceDto?.PricekWh</h7>
+
+    <button @onclick="async() => await Buy(RessourceDto.Id)">Buy</button>
+</div>
+
+@code {
+    [Parameter]
+    public EnergyRessourceDTO RessourceDto { get; set; }
+
+    public async Task Buy(Guid guid)
+    {
+        await httpClient.PostAsync($"/api/energyRessource/buyEnergyRessource/{guid}", null);
+    }
+}

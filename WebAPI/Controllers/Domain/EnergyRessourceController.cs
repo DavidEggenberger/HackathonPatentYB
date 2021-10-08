@@ -59,7 +59,7 @@ namespace WebAPI.Controllers.Domain
                 ProducerId = applicationUser.Id
             };
             applicationDbContext.EnergyRessources.Add(energyRessource);
-            int i = await applicationDbContext.SaveChangesAsync();
+            await applicationDbContext.SaveChangesAsync();
             return Ok();
         }
         [HttpPost("buyEnergyRessource/{energyRessourceId}")]

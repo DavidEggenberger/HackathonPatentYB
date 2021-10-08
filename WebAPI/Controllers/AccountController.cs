@@ -31,6 +31,7 @@ namespace WebAPI.Controllers
                     UserName = info.Principal.Identity.Name,
                     PictureUri = info.Principal.Claims.Where(c => c.Type == "picture").First().Value
                 };
+                _user.SetUp();
                 var result = await userManager.CreateAsync(_user);
                 if (result.Succeeded)
                 {
