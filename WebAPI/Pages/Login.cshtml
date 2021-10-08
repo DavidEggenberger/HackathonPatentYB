@@ -6,15 +6,16 @@
     ViewData["Title"] = "Login";
 }
 
-<h3>Choose a social log-in:</h3>
 @{
+    <h3>Choose a social log-in:</h3>
+
     var providers = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
     <form asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
         <div>
             @foreach (var provider in providers)
             {
 
-                <button type="submit" style="margin-left: 6px; font-size: 18px; font-weight: bolder;" value="@provider.Name" name="provider">@provider.Name</button>
+                <button class="socialLoginButton" type="submit" value="@provider.Name" name="provider">@provider.Name</button>
             }
         </div>
     </form>

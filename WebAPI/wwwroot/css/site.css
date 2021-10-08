@@ -1,5 +1,6 @@
 ﻿body{
     margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .page{
     height: 100vh;
@@ -7,4 +8,9 @@
     display: grid;
     place-content: center;
     background-image: linear-gradient(white, purple);
+}
+.socialLoginButton {
+    margin-left: 6px;
+    font-size: 18px; 
+    font-weight: bolder;
 }

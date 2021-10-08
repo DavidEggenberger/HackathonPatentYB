@@ -115,7 +115,7 @@ namespace WebAPI
             var identityService = services.AddIdentityCore<ApplicationUser>(options =>
             {
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/ ";
-                options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = false;
                 options.Tokens.AuthenticatorIssuer = "JustRoll";
                 options.Stores.MaxLengthForKeys = 128;
             })
