@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClient", "WebClient\WebC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{C72753B4-4F66-4448-87CB-6B5B75F4FA8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedContracts", "SharedContracts\SharedContracts.csproj", "{55260E94-A2B7-4037-B199-9D2EA1B8BC46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{C72753B4-4F66-4448-87CB-6B5B75F4FA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C72753B4-4F66-4448-87CB-6B5B75F4FA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C72753B4-4F66-4448-87CB-6B5B75F4FA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55260E94-A2B7-4037-B199-9D2EA1B8BC46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55260E94-A2B7-4037-B199-9D2EA1B8BC46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55260E94-A2B7-4037-B199-9D2EA1B8BC46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55260E94-A2B7-4037-B199-9D2EA1B8BC46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
