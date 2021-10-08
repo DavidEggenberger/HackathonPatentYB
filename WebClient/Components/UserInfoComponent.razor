@@ -1,5 +1,22 @@
-﻿<h3>UserInfoComponent</h3>
+﻿@inject HttpClient httpClient
 
-@code {
+<div class="userInfoComponentContainer">
 
+</div>
+
+@code{
+    [Parameter]
+    public HubConnection HubConnection { get; set; }
+
+    private ApplicationUserDTO currentUserDTO = new ApplicationUserDTO();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Refresh();
+    }
+
+    public async Task Refresh()
+    {
+        currentUserDTO = await httpClient.GetFromJsonAsync<ApplicationUserDTO>("/api/applicationUser");
+    }
 }

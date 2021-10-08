@@ -1,0 +1,5 @@
+﻿.userInfoComponentContainer {
+    border: 3px solid purple;
+    border-radius: 10px;
+    height: calc(100% - 30px);
+}

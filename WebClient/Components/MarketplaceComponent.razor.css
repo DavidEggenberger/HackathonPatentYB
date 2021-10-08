@@ -1,7 +1,11 @@
 ﻿.diagramContainer{
-    height: calc(100%);
+    height: calc(100% - 140px);
     width: 100%;
 }
 .container{
-    height: 100%;
+    height: calc(100% - 20px);
+}
+.UserInfoComponentContainer{
+    height: 140px;
+    padding: 10px 0;
 }
