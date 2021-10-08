@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Domain
+namespace SharedContracts
 {
-    public class EnergyRessource
+    public class EnergyRessourceDTO
     {
         public Guid Id { get; set; }
         public string Source { get; set; }
@@ -14,8 +12,6 @@ namespace Domain
         public decimal ProductionDayRainny { get; set; }
         public decimal ProductionNight { get; set; }
         public string ProducerId { get; set; }
-        public ApplicationUser Producer { get; set; }
         public string ConsumerId { get; set; }
-        public ApplicationUser Consumer { get; set; }
     }
 }

@@ -1,0 +1,19 @@
+﻿@inject HttpClient httpClient
+
+@foreach (var item in applicationUserDTOs)
+{
+    <p>@item.UserName</p>
+}
+
+@code{
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private List<ApplicationUserDTO> applicationUserDTOs = new List<ApplicationUserDTO>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        applicationUserDTOs = await httpClient.GetFromJsonAsync<List<ApplicationUserDTO>>("/api/applicationUser/all");
+    }
+}

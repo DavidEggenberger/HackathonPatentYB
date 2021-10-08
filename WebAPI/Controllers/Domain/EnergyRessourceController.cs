@@ -11,6 +11,6 @@ namespace WebAPI.Controllers.Domain
     [ApiController]
     public class EnergyRessourceController : ControllerBase
     {
-
+        
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Infrastructure.Persistance.Migrations
+namespace Infrastructure.Migrations
 {
     public partial class initial : Migration
     {
@@ -26,6 +26,9 @@ namespace Infrastructure.Persistance.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    EnergySupplier = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tokens = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PictureUri = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -105,6 +108,29 @@ namespace Infrastructure.Persistance.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApplicationUserFollowerPair",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FollowerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    FollowedId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUserFollowerPair", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserFollowerPair_AspNetUsers_FollowedId",
+                        column: x => x.FollowedId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserFollowerPair_AspNetUsers_FollowerId",
+                        column: x => x.FollowerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -192,6 +218,45 @@ namespace Infrastructure.Persistance.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "EnergyRessource",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Source = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProductionDaySunny = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProductionDayRainny = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProductionNight = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ProducerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ConsumerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EnergyRessource", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EnergyRessource_AspNetUsers_ConsumerId",
+                        column: x => x.ConsumerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_EnergyRessource_AspNetUsers_ProducerId",
+                        column: x => x.ProducerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserFollowerPair_FollowedId",
+                table: "ApplicationUserFollowerPair",
+                column: "FollowedId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserFollowerPair_FollowerId",
+                table: "ApplicationUserFollowerPair",
+                column: "FollowerId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -243,6 +308,16 @@ namespace Infrastructure.Persistance.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EnergyRessource_ConsumerId",
+                table: "EnergyRessource",
+                column: "ConsumerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EnergyRessource_ProducerId",
+                table: "EnergyRessource",
+                column: "ProducerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_Expiration",
                 table: "PersistedGrants",
                 column: "Expiration");
@@ -261,6 +336,9 @@ namespace Infrastructure.Persistance.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ApplicationUserFollowerPair");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
             migrationBuilder.DropTable(
@@ -277,6 +355,9 @@ namespace Infrastructure.Persistance.Migrations
 
             migrationBuilder.DropTable(
                 name: "DeviceCodes");
+
+            migrationBuilder.DropTable(
+                name: "EnergyRessource");
 
             migrationBuilder.DropTable(
                 name: "PersistedGrants");

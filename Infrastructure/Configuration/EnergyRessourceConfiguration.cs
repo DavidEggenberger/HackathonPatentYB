@@ -13,8 +13,8 @@ namespace Infrastructure.Configuration
     {
         public void Configure(EntityTypeBuilder<EnergyRessource> builder)
         {
-            builder.HasOne(x => x.Producer).WithMany(x => x.EnergyRessourcesProduced).HasForeignKey(x => x.ProducerId).IsRequired(true);
-            builder.HasOne(x => x.Consumer).WithMany(x => x.EnergyRessourcesConsumed).HasForeignKey(x => x.ConsumerId).IsRequired(false);
+            builder.HasOne(x => x.Producer).WithMany(x => x.EnergyRessourcesProduced).HasForeignKey(x => x.ProducerId).OnDelete(DeleteBehavior.NoAction).IsRequired(true);
+            builder.HasOne(x => x.Consumer).WithMany(x => x.EnergyRessourcesConsumed).HasForeignKey(x => x.ConsumerId).OnDelete(DeleteBehavior.NoAction).IsRequired(false);
         }
     }
 }
