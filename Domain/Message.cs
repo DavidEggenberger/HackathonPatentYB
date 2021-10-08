@@ -6,5 +6,9 @@ namespace Domain
 {
     public class Message
     {
+        public Guid Id { get; set; }
+        public DateTime SentTime { get; set; }
+        public string Content { get; set; }
+        public int MyProperty { get; set; }
     }
 }

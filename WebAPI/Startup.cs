@@ -1,5 +1,5 @@
 using IdentityServer4.Models;
-using Infrastructure.Identity;
+using Domain;
 using Infrastructure.Persistance;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Authentication;
@@ -22,6 +22,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Hubs;
+using Infrastructure.Identity;
 
 namespace WebAPI
 {
