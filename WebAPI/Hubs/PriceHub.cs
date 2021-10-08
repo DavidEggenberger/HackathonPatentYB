@@ -8,5 +8,6 @@ namespace WebAPI.Hubs
 {
     public class PriceHub : Hub
     {
+        
     }
 }

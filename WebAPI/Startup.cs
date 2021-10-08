@@ -46,9 +46,8 @@ namespace WebAPI
             {
                 options.AddDefaultPolicy(builder =>
                 {
-                    builder
+                    builder.AllowAnyOrigin()
                           .AllowAnyMethod()
-                          .AllowCredentials()
                           .AllowAnyHeader()
                           .Build();
                 });

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Timers;
 using System.Threading.Tasks;
 using WebAPI.Hubs;
+using Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.BackgroundServices
 {
@@ -29,6 +31,26 @@ namespace WebAPI.BackgroundServices
             {
                 await Task.Delay(1000);
 
+                List<ApplicationUser> applicationUsers = applicationDbContext.Users
+                                                            .Include(x => x.EnergyRessourcesConsumed)
+                                                            .ThenInclude(x => x.Producer)
+                                                            .ToList();
+                foreach (var user in applicationUsers)
+                {
+                    foreach (var ressource in user.EnergyRessourcesConsumed)
+                    {
+                        if(DateTime.Now < ressource.TimeCreated + ressource.Duration)
+                        {
+                            decimal pricePerSec = ressource.PricePerkWh / (60 * 60);
+                            decimal average = (ressource.ProductionDayRainnykWh + ressource.ProductionDaySunnykWh + ressource.ProductionNightkWh) / 3;
+                            decimal cost = average * pricePerSec;
+                            user.Tokens -= cost;
+                            ressource.Producer.Tokens += cost;
+                        }
+                    }
+                }
+                await applicationDbContext.SaveChangesAsync();
+                await priceHub.Clients.All.SendAsync("Update");
             }
         }
     }

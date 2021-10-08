@@ -34,12 +34,12 @@ namespace WebAPI.Controllers.Domain
                 .Select(x => new EnergyRessourceDTO
                 {
                     Duration = x.Duration,
-                    ProductionDayRainny = x.ProductionDayRainny,
-                    ProductionDaySunny = x.ProductionDaySunny,
+                    ProductionDayRainnykWh = x.ProductionDayRainnykWh,
+                    ProductionDaySunnykWh = x.ProductionDaySunnykWh,
                     Id = x.Id,
-                    Price = x.Price,
+                    PricekWh = x.PricePerkWh,
                     Source = x.Source,
-                    ProductionNight = x.ProductionNight,
+                    ProductionNightkWh = x.ProductionNightkWh,
                     ProducerId = x.ProducerId
                 }));
         }
@@ -51,11 +51,11 @@ namespace WebAPI.Controllers.Domain
             EnergyRessource energyRessource = new EnergyRessource()
             {
                 Duration = energyRessourceDTO.Duration,
-                ProductionDayRainny = energyRessourceDTO.ProductionDayRainny,
-                ProductionDaySunny = energyRessourceDTO.ProductionDaySunny,
-                Price = energyRessourceDTO.Price,
+                ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
+                ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
+                PricePerkWh = energyRessourceDTO.PricekWh,
                 Source = energyRessourceDTO.Source,
-                ProductionNight = energyRessourceDTO.ProductionNight,
+                ProductionNightkWh = energyRessourceDTO.ProductionNightkWh,
                 ProducerId = applicationUser.Id
             };
             applicationDbContext.EnergyRessources.Add(energyRessource);
@@ -70,7 +70,7 @@ namespace WebAPI.Controllers.Domain
             EnergyRessource energyRessource = applicationDbContext.EnergyRessources
                                                         .Single(x => x.Id == energyRessourceId);
             
-            if(applicationUser.Tokens < energyRessource.Price)
+            if(applicationUser.Tokens < energyRessource.PricePerkWh)
             {
                 return BadRequest();
             }

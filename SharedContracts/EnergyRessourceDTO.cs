@@ -7,10 +7,10 @@ namespace SharedContracts
         public Guid Id { get; set; }
         public string Source { get; set; }
         public TimeSpan Duration { get; set; }
-        public decimal Price { get; set; }
-        public decimal ProductionDaySunny { get; set; }
-        public decimal ProductionDayRainny { get; set; }
-        public decimal ProductionNight { get; set; }
+        public decimal PricekWh { get; set; }
+        public decimal ProductionDaySunnykWh { get; set; }
+        public decimal ProductionDayRainnykWh { get; set; }
+        public decimal ProductionNightkWh { get; set; }
         public string ProducerId { get; set; }
         public string ConsumerId { get; set; }
     }

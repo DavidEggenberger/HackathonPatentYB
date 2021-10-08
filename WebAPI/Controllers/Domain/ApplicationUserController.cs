@@ -40,27 +40,27 @@ namespace WebAPI.Controllers.Domain
                         new EnergyRessourceDTO 
                         {
                             Duration = x.Duration,
-                            ProductionDayRainny = x.ProductionDayRainny,
-                            ProductionDaySunny = x.ProductionDaySunny,
+                            ProductionDayRainnykWh = x.ProductionDayRainnykWh,
+                            ProductionDaySunnykWh = x.ProductionDaySunnykWh,
                             ConsumerId = x.ConsumerId,
                             Source = x.Source,
                             Id = x.Id,
-                            Price = x.Price,
+                            PricekWh = x.PricePerkWh,
                             ProducerId = x.ProducerId,
-                            ProductionNight = x.ProductionNight
+                            ProductionNightkWh = x.ProductionNightkWh
                         }).ToList(),
                     EnergyRessourcesProduced = user.EnergyRessourcesProduced.Select(x =>
                         new EnergyRessourceDTO
                         {
                             Duration = x.Duration,
-                            ProductionDayRainny = x.ProductionDayRainny,
-                            ProductionDaySunny = x.ProductionDaySunny,
+                            ProductionDayRainnykWh = x.ProductionDayRainnykWh,
+                            ProductionDaySunnykWh = x.ProductionDaySunnykWh,
                             ConsumerId = x.ConsumerId,
                             Source = x.Source,
                             Id = x.Id,
-                            Price = x.Price,
+                            PricekWh = x.PricePerkWh,
                             ProducerId = x.ProducerId,
-                            ProductionNight = x.ProductionNight
+                            ProductionNightkWh = x.ProductionNightkWh
                         }).ToList(),
                     UsersFollowedBy = user.UsersFollowedBy.Select(x => new ApplicationUserFollowerPairDTO
                     {
