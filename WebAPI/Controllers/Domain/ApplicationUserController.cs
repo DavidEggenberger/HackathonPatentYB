@@ -50,7 +50,7 @@ namespace WebAPI.Controllers.Domain
                     EnergyRessourcesConsumed = user.EnergyRessourcesConsumed.Select(x => 
                         new EnergyRessourceDTO 
                         {
-                            Duration = x.Duration,
+                            Duration = x.Duration.Days,
                             ProductionDayRainnykWh = x.ProductionDayRainnykWh,
                             ProductionDaySunnykWh = x.ProductionDaySunnykWh,
                             ConsumerId = x.ConsumerId,
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers.Domain
                     EnergyRessourcesProduced = user.EnergyRessourcesProduced.Select(x =>
                         new EnergyRessourceDTO
                         {
-                            Duration = x.Duration,
+                            Duration = x.Duration.Days,
                             ProductionDayRainnykWh = x.ProductionDayRainnykWh,
                             ProductionDaySunnykWh = x.ProductionDaySunnykWh,
                             ConsumerId = x.ConsumerId,
