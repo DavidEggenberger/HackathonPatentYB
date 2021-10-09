@@ -83,6 +83,7 @@
                     EnergyRessourceDTO cressource = ((EnergyRessourceNode)bt.TargetPort.Parent).Ressource;
                     ((UserNode)bt.SourcePort.Parent).BuyRessource(((EnergyRessourceNode)bt.TargetPort.Parent).Ressource);
                     MarketHubConnection.SendAsync("BuySell", new BuySellOrderDTO { Supplied = -((cressource.ProductionDayRainnykWh + cressource.ProductionDaySunnykWh + cressource.ProductionNightkWh) / 3), Demanded = - ((cressource.ProductionDayRainnykWh + cressource.ProductionDaySunnykWh + cressource.ProductionNightkWh) / 3 )});
+                    httpClient.PostAsync($"/api/energyRessource/buyEnergyRessource/{cressource.Id}", null);
                 }
                 if (bt.SourcePort.Parent is UserNode && bt.TargetPort.Parent is ConsumeRessourceNode)
                 {

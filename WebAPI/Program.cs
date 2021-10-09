@@ -44,7 +44,7 @@ namespace WebAPI
                     webBuilder.UseStartup<Startup>();
                     webBuilder.ConfigureServices((hostContext, services) =>
                     {
-                        //services.AddHostedService<PricingBackgroundService>();
+                        services.AddHostedService<PricingBackgroundService>();
                     });
                 });
     }

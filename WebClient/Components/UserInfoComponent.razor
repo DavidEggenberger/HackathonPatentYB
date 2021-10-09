@@ -47,6 +47,11 @@
             marketDTO = marketUpdateDTO;
             StateHasChanged();
         });
+        MarketHubConnection.On("Update", async () =>
+        {
+            await Refresh();
+            StateHasChanged();
+        });
     }
 
     public async Task Refresh()
