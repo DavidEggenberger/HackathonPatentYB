@@ -3,7 +3,7 @@
 @inject IAccessTokenProvider tokenProvider
 @inject HttpClient httpClient
 
-<CascadingValue Value="hubConnection">
+<CascadingValue Value="marketHubConnection" Name="MarketHubConnection">
     <AuthorizeView>
         <NotAuthorized>
             <h1>Please Login</h1>
@@ -18,7 +18,7 @@
 @code{
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
-    private HubConnection hubConnection;
+    private HubConnection marketHubConnection;
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,13 +31,13 @@
 
             if (token is not null)
             {
-                hubConnection = new HubConnectionBuilder()
-                .WithUrl(NavigationManager.ToAbsoluteUri("/pricehub"), options =>
+                marketHubConnection = new HubConnectionBuilder()
+                .WithUrl(NavigationManager.ToAbsoluteUri("/markethub"), options =>
                 {
                     options.AccessTokenProvider = async () => token.Value;
                 })
                 .Build();
-                await hubConnection.StartAsync();
+                await marketHubConnection.StartAsync();
             }
         }
     }

@@ -20,7 +20,7 @@ namespace WebClient.Diagrams.Nodes
             AddPort(new ColumnPort(this, PortAlignment.Bottom));
             this.httpClient = httpClient;
         }
-        public event Action<decimal> Update;
+        public event Func<decimal, Task> Update;
         public decimal kWh { get; set; }
         public void BuyRessource(EnergyRessourceDTO energyRessourceDTO)
         {

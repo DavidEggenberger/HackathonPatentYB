@@ -26,8 +26,8 @@
 
 
 @code{
-    [CascadingParameter(Name = "hubConnection")]
-    public HubConnection hubConnection { get; set; }
+    [CascadingParameter(Name = "MarketHubConnection")]
+    public HubConnection MarketHubConnection { get; set; }
 
     [Parameter]
     public UserNode Node { get; set; }
@@ -36,7 +36,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Node.Update += (s) =>
+        Node.Update += async (s) =>
         {
             kWh += s;
             Console.WriteLine(s);

@@ -24,8 +24,8 @@
 @code{
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
-    [CascadingParameter]
-    public HubConnection HubConnection { get; set; }
+    [CascadingParameter(Name = "MarketHubConnection")]
+    public HubConnection MarketHubConnection { get; set; }
 
     private Diagram diagram;
     private ApplicationUserDTO currentUserDTO = new ApplicationUserDTO();
@@ -82,7 +82,9 @@
                 }
                 if (bt.SourcePort.Parent is UserNode && bt.TargetPort.Parent is ConsumeRessourceNode)
                 {
+                    ConsumeRessource cressource = ((ConsumeRessourceNode)bt.TargetPort.Parent).Ressource;
                     ((UserNode)bt.SourcePort.Parent).ConsumeRessource(((ConsumeRessourceNode)bt.TargetPort.Parent).Ressource);
+                    MarketHubConnection.SendAsync("BuySell", new BuySellOrderDTO { Demanded = cressource.kWh});
                 }
                 StateHasChanged();
             };
@@ -100,11 +102,6 @@
         }
 
         diagram.Nodes.Add(new UserNode(httpClient, new Point((diagram.Container.Width / 2) - 60, (diagram.Container.Height / 2) - 40)) { ApplicationUser = currentUserDTO });
-
-        HubConnection.On("Update", async () =>
-        {
-            await GetData();
-        });
 
         StateHasChanged();
     }

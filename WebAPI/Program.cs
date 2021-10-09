@@ -26,6 +26,7 @@ namespace WebAPI
                 {
                     
                 });
+                appDbContext.SaveChanges();
             }
 
             host.Run();

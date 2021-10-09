@@ -3,13 +3,16 @@ using Infrastructure.Persistance;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using SharedContracts;
+using SharedContracts.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using WebAPI.Hubs;
 
 namespace WebAPI.Controllers.Domain
 {
@@ -19,10 +22,12 @@ namespace WebAPI.Controllers.Domain
     {
         private ApplicationDbContext applicationDbContext;
         private UserManager<ApplicationUser> userManager;
-        public EnergyRessourceController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
+        private IHubContext<MarketHub> marketHub;
+        public EnergyRessourceController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, IHubContext<MarketHub> marketHub)
         {
             this.applicationDbContext = applicationDbContext;
             this.userManager = userManager;
+            this.marketHub = marketHub;
         }
         [HttpGet("allOffers")]
         public async Task<ActionResult> GetAllEnergyRessoucesToBeBought()
@@ -76,6 +81,11 @@ namespace WebAPI.Controllers.Domain
                 };
                 applicationDbContext.EnergyRessources.Add(energyRessource);
             }
+
+            Market market = applicationDbContext.Markets.First();
+            market.Demanded += (energyRessourceDTO.ProductionDayRainnykWh + energyRessourceDTO.ProductionDaySunnykWh + energyRessourceDTO.ProductionNightkWh) / 3;
+            await marketHub.Clients.All.SendAsync("MarketUpdate", new MarketDTO { Demanded = market.Demanded, Supplied = market.Supplied, MovingUp = false });
+
             await applicationDbContext.SaveChangesAsync();
             return Ok();
         }

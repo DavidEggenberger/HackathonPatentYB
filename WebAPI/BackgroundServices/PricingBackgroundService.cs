@@ -16,8 +16,8 @@ namespace WebAPI.BackgroundServices
     public class PricingBackgroundService : BackgroundService
     {
         private IServiceProvider serviceProvider;
-        private IHubContext<PriceHub> priceHub;
-        public PricingBackgroundService(IServiceProvider serviceProvider, IHubContext<PriceHub> priceHub)
+        private IHubContext<MarketHub> priceHub;
+        public PricingBackgroundService(IServiceProvider serviceProvider, IHubContext<MarketHub> priceHub)
         {
             this.serviceProvider = serviceProvider;
             this.priceHub = priceHub;
