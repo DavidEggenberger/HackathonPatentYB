@@ -24,6 +24,7 @@ aside{
     padding: 10px;
 }
 section{
+    cursor: grab;
     border: 3px solid purple;
     border-radius: 5px;
     color: purple;

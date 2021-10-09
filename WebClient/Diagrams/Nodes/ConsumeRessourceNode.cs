@@ -12,7 +12,7 @@ namespace WebClient.Diagrams.Nodes
     {
         public ConsumeRessourceNode(Blazor.Diagrams.Core.Geometry.Point position = null) : base(position)
         {
-            AddPort(new ColumnPort(this, PortAlignment.Bottom));
+            AddPort(new ColumnPort(this, PortAlignment.Top));
         }
         public MarketplaceComponent.ConsumeRessource Ressource { get; set; }
     }

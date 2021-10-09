@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using WebClient.Components;
 using WebClient.Diagrams.Ports;
 
 namespace WebClient.Diagrams.Nodes
@@ -19,9 +20,17 @@ namespace WebClient.Diagrams.Nodes
             AddPort(new ColumnPort(this, PortAlignment.Bottom));
             this.httpClient = httpClient;
         }
-        public async Task ConsumeRessource(EnergyRessourceDTO energyRessourceDTO)
+        public event Action<decimal> Update;
+        public decimal kWh { get; set; }
+        public void BuyRessource(EnergyRessourceDTO energyRessourceDTO)
         {
-
+            kWh += energyRessourceDTO.ProductionDaySunnykWh;
+            Update?.Invoke(energyRessourceDTO.ProductionDayRainnykWh);
+        }
+        public void ConsumeRessource(MarketplaceComponent.ConsumeRessource energyRessourceDTO)
+        {
+            kWh -= energyRessourceDTO.kWh;
+            Update?.Invoke(- energyRessourceDTO.kWh);
         }
     }
 }
