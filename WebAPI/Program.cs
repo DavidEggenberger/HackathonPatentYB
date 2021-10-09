@@ -28,6 +28,18 @@ namespace WebAPI
                 });
                 appDbContext.SaveChanges();
             }
+            //if(appDbContext.EnergyRessources.Count() == 0)
+            //{
+            //    appDbContext.EnergyRessources.Add(new Domain.EnergyRessource
+            //    {
+            //        PricePerkWh = 30,
+            //        ProductionDayRainnykWh = 30,
+            //        ProductionNightkWh = 9,
+            //        ProductionDaySunnykWh = 3,
+            //        Source = "Solar",
+            //    });
+            //    appDbContext.SaveChanges();
+            //}
 
             host.Run();
         }

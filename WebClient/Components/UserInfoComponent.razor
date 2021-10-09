@@ -6,8 +6,8 @@
     <div class="header">
         <h5>Your Tokens: @currentUserDTO.Tokens</h5>
         <h5>Market Development: <img height="30" src="@(marketDTO.MovingUp ? "/up.png" : "/down.png")" /></h5>
-        <h5>Market Demand: @marketDTO.Demanded</h5>
-        <h5>Market Supply: @marketDTO.Supplied</h5>
+        <h5>Market Demand: @Math.Round(marketDTO.Demanded, 3)</h5>
+        <h5>Market Supply: @Math.Round(marketDTO.Supplied, 3)</h5>
     </div>
 </div>
 

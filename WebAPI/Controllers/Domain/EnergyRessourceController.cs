@@ -39,6 +39,7 @@ namespace WebAPI.Controllers.Domain
                 .Select(x => new EnergyRessourceDTO
                 {
                     Duration = x.Duration,
+                    Location = x.Location,
                     ProductionDayRainnykWh = x.ProductionDayRainnykWh,
                     ProductionDaySunnykWh = x.ProductionDaySunnykWh,
                     Id = x.Id,
@@ -56,6 +57,7 @@ namespace WebAPI.Controllers.Domain
                 ApplicationUser user = applicationDbContext.Users.First();
                 EnergyRessource energyRessource = new EnergyRessource()
                 {
+                    Location = energyRessourceDTO.Location,
                     Duration = energyRessourceDTO.Duration,
                     ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
                     ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,

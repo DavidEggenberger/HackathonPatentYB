@@ -16,6 +16,7 @@ button{
     place-content: center;
     color: white !important;
     font-size: 20px;
+    cursor: pointer;
 }
 h4{
     margin-bottom: 10px;
