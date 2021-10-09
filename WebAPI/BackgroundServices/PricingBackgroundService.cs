@@ -29,7 +29,7 @@ namespace WebAPI.BackgroundServices
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                await Task.Delay(1000);
+                await Task.Delay(10000);
 
                 List<ApplicationUser> applicationUsers = applicationDbContext.Users
                                                             .Include(x => x.EnergyRessourcesConsumed)
@@ -37,17 +37,21 @@ namespace WebAPI.BackgroundServices
                                                             .ToList();
                 foreach (var user in applicationUsers)
                 {
-                    foreach (var ressource in user.EnergyRessourcesConsumed)
+                    if(user.EnergyRessourcesConsumed.Count > 0)
                     {
-                        if (DateTime.Now.DayOfYear < DateTime.Now.AddDays(ressource.DurationInDays).DayOfYear - DateTime.Now.DayOfYear)
-                        {
-                            decimal pricePerSec = ressource.PricePerkWh / (60 * 60);
-                            decimal average = (ressource.ProductionDayRainnykWh + ressource.ProductionDaySunnykWh + ressource.ProductionNightkWh) / 3;
-                            decimal cost = average * pricePerSec;
-                            user.Tokens -= cost;
-                            ressource.Producer.Tokens += cost;
-                        }
+                        user.Tokens -= (decimal)new double[] { 0.02, 0.001, 0.01 }[new Random().Next(0, 2)];
                     }
+                    //foreach (var ressource in user.EnergyRessourcesConsumed)
+                    //{
+                    //    if (DateTime.Now.DayOfYear < DateTime.Now.AddDays(ressource.DurationInDays).DayOfYear - DateTime.Now.DayOfYear)
+                    //    {
+                    //        decimal pricePerSec = ressource.PricePerkWh / (60 * 60);
+                    //        decimal average = (ressource.ProductionDayRainnykWh + ressource.ProductionDaySunnykWh + ressource.ProductionNightkWh) / 3;
+                    //        decimal cost = average * pricePerSec;
+                    //        user.Tokens -= cost;
+                    //        ressource.Producer.Tokens += cost;
+                    //    }
+                    //}
                 }
                 await applicationDbContext.SaveChangesAsync();
                 await priceHub.Clients.All.SendAsync("Update");
