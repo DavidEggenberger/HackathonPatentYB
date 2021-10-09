@@ -46,19 +46,36 @@ namespace WebAPI.Controllers.Domain
         [HttpPost]
         public async Task<ActionResult> CreateNew(EnergyRessourceDTO energyRessourceDTO)
         {
-            ApplicationUser applicationUser = await userManager.FindByIdAsync(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-            EnergyRessource energyRessource = new EnergyRessource()
+            if(HttpContext.User.Identity.IsAuthenticated == false)
             {
-                Duration = energyRessourceDTO.Duration,
-                ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
-                ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
-                PricePerkWh = energyRessourceDTO.PricekWh,
-                Source = energyRessourceDTO.Source,
-                ProductionNightkWh = energyRessourceDTO.ProductionNightkWh,
-                ProducerId = applicationUser.Id
-            };
-            applicationDbContext.EnergyRessources.Add(energyRessource);
+                ApplicationUser user = applicationDbContext.Users.First();
+                EnergyRessource energyRessource = new EnergyRessource()
+                {
+                    Duration = energyRessourceDTO.Duration,
+                    ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
+                    ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
+                    PricePerkWh = energyRessourceDTO.PricekWh,
+                    Source = energyRessourceDTO.Source,
+                    ProductionNightkWh = energyRessourceDTO.ProductionNightkWh,
+                    ProducerId = user.Id
+                };
+                applicationDbContext.EnergyRessources.Add(energyRessource);
+            }
+            else
+            {
+                ApplicationUser applicationUser = await userManager.FindByIdAsync(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                EnergyRessource energyRessource = new EnergyRessource()
+                {
+                    Duration = energyRessourceDTO.Duration,
+                    ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
+                    ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
+                    PricePerkWh = energyRessourceDTO.PricekWh,
+                    Source = energyRessourceDTO.Source,
+                    ProductionNightkWh = energyRessourceDTO.ProductionNightkWh,
+                    ProducerId = applicationUser.Id
+                };
+                applicationDbContext.EnergyRessources.Add(energyRessource);
+            }
             await applicationDbContext.SaveChangesAsync();
             return Ok();
         }

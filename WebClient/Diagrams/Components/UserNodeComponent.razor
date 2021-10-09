@@ -2,7 +2,18 @@
 
 <div class="card">
     <div class="card-body">
-        <label>You need: @kWh kWh</label>
+        @if(kWh < 0)
+        {
+            <label>You need to buy: @(- kWh) kWh</label>
+        }
+        else if(kWh > 0)
+        {
+            <label>You can consume: @kWh kWh</label>
+        }
+        else
+        {
+            <label>Lets consume green energy!</label>
+        }
         <AuthorizeView>
             <img width="70" src="@context.User.Claims.First(c => c.Type == "picture").Value" />
         </AuthorizeView>

@@ -6,6 +6,7 @@ namespace SharedContracts
     {
         public Guid Id { get; set; }
         public string Source { get; set; }
+        public string Location { get; set; }
         public TimeSpan Duration { get; set; }
         public decimal PricekWh { get; set; }
         public decimal ProductionDaySunnykWh { get; set; }
