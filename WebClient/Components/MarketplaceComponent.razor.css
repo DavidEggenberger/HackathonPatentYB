@@ -3,9 +3,8 @@
     width: 100%;
 }
 .container{
-    height: calc(100% - 20px);
+    height: calc(100% - 30px);
 }
 .UserInfoComponentContainer{
-    height: 140px;
-    padding: 10px 0;
+    
 }

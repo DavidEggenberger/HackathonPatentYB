@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="5.0.10" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
+    <PackageReference Include="Twileloop.ExpressRecurrence" Version="2.0.0" />
     <PackageReference Include="Z.Blazor.Diagrams" Version="2.1.5" />
     <PackageReference Include="Z.Blazor.Diagrams.Core" Version="2.1.5" />
   </ItemGroup>

@@ -1,5 +1,19 @@
 ﻿.userInfoComponentContainer {
     border: 3px solid purple;
     border-radius: 10px;
-    height: calc(100% - 30px);
+    padding: 5px;
+    color: purple;
+}
+h5{
+    margin: 0;
+    font-size: 18px;
+}
+.calender{
+    display: flex;
+    height: 120px;
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
 }
