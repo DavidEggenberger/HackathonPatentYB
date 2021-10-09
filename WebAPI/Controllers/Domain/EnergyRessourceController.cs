@@ -57,8 +57,9 @@ namespace WebAPI.Controllers.Domain
                 ApplicationUser user = applicationDbContext.Users.First();
                 EnergyRessource energyRessource = new EnergyRessource()
                 {
+                    TimeCreated = DateTime.Now,
                     Location = energyRessourceDTO.Location,
-                    Duration = energyRessourceDTO.Duration,
+                    Duration = DateTime.Now.AddDays(energyRessourceDTO.Duration) - DateTime.Now,
                     ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
                     ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
                     PricePerkWh = energyRessourceDTO.PricekWh,
