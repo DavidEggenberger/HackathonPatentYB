@@ -1,6 +1,9 @@
 ﻿<div class="card">
     <div class="card-body">
-        
+        <label>Average kWh</label>
+        <h5>@(Math.Round(((Node.Ressource.ProductionDayRainnykWh + Node.Ressource.ProductionDaySunnykWh + Node.Ressource.ProductionNightkWh) / 3), 3))</h5>
+        <label>Price</label>
+        <h5>@Node.Ressource.PricekWh</h5>
     </div>
     @foreach (var port in Node.Ports)
     {

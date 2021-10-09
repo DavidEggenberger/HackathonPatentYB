@@ -25,7 +25,7 @@ namespace WebClient.Diagrams.Nodes
         public void BuyRessource(EnergyRessourceDTO energyRessourceDTO)
         {
             kWh += energyRessourceDTO.ProductionDaySunnykWh;
-            Update?.Invoke(energyRessourceDTO.ProductionDayRainnykWh);
+            Update?.Invoke((energyRessourceDTO.ProductionDayRainnykWh + energyRessourceDTO.ProductionDaySunnykWh + energyRessourceDTO.ProductionNightkWh) / 3);
         }
         public void ConsumeRessource(MarketplaceComponent.ConsumeRessource energyRessourceDTO)
         {
