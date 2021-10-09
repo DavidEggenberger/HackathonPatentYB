@@ -9,7 +9,7 @@ namespace Domain
         public Guid Id { get; set; }
         public string Source { get; set; }
         public string Location { get; set; }
-        public TimeSpan Duration { get; set; }
+        public int DurationInDays { get; set; }
         public DateTime TimeCreated { get; set; }
         public decimal PricePerkWh { get; set; }
         public decimal ProductionDaySunnykWh { get; set; }

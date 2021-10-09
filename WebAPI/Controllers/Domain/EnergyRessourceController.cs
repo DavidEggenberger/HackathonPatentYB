@@ -38,7 +38,7 @@ namespace WebAPI.Controllers.Domain
                 .Where(x => x.Consumer == null)
                 .Select(x => new EnergyRessourceDTO
                 {
-                    Duration = x.Duration.Days,
+                    Duration = x.DurationInDays,
                     Location = x.Location,
                     ProductionDayRainnykWh = x.ProductionDayRainnykWh,
                     ProductionDaySunnykWh = x.ProductionDaySunnykWh,
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers.Domain
                 {
                     TimeCreated = DateTime.Now,
                     Location = energyRessourceDTO.Location,
-                    Duration = DateTime.Now.AddDays(energyRessourceDTO.Duration) - DateTime.Now,
+                    DurationInDays = energyRessourceDTO.Duration,
                     ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
                     ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
                     PricePerkWh = energyRessourceDTO.PricekWh,
@@ -74,7 +74,7 @@ namespace WebAPI.Controllers.Domain
                 ApplicationUser applicationUser = await userManager.FindByIdAsync(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 EnergyRessource energyRessource = new EnergyRessource()
                 {
-                    Duration = DateTime.Now.AddDays(energyRessourceDTO.Duration) - DateTime.Now,
+                    DurationInDays = energyRessourceDTO.Duration,
                     ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
                     ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
                     PricePerkWh = energyRessourceDTO.PricekWh,

@@ -39,14 +39,14 @@ namespace WebAPI.BackgroundServices
                 {
                     foreach (var ressource in user.EnergyRessourcesConsumed)
                     {
-                        if(DateTime.Now < ressource.TimeCreated + ressource.Duration)
-                        {
-                            decimal pricePerSec = ressource.PricePerkWh / (60 * 60);
-                            decimal average = (ressource.ProductionDayRainnykWh + ressource.ProductionDaySunnykWh + ressource.ProductionNightkWh) / 3;
-                            decimal cost = average * pricePerSec;
-                            user.Tokens -= cost;
-                            ressource.Producer.Tokens += cost;
-                        }
+                        //if(DateTime.Now < ressource.TimeCreated + ressource.DurationInDays)
+                        //{
+                        //    decimal pricePerSec = ressource.PricePerkWh / (60 * 60);
+                        //    decimal average = (ressource.ProductionDayRainnykWh + ressource.ProductionDaySunnykWh + ressource.ProductionNightkWh) / 3;
+                        //    decimal cost = average * pricePerSec;
+                        //    user.Tokens -= cost;
+                        //    ressource.Producer.Tokens += cost;
+                        //}
                     }
                 }
                 await applicationDbContext.SaveChangesAsync();
