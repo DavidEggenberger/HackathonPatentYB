@@ -83,8 +83,8 @@ namespace WebAPI.Controllers.Domain
             }
 
             Market market = applicationDbContext.Markets.First();
-            market.Demanded += (energyRessourceDTO.ProductionDayRainnykWh + energyRessourceDTO.ProductionDaySunnykWh + energyRessourceDTO.ProductionNightkWh) / 3;
-            market.MovingUp = true;
+            market.Supplied += (energyRessourceDTO.ProductionDayRainnykWh + energyRessourceDTO.ProductionDaySunnykWh + energyRessourceDTO.ProductionNightkWh) / 3;
+            market.MovingUp = false;
             await marketHub.Clients.All.SendAsync("MarketUpdate", new MarketDTO { Demanded = market.Demanded, Supplied = market.Supplied, MovingUp = false });
 
             await applicationDbContext.SaveChangesAsync();
