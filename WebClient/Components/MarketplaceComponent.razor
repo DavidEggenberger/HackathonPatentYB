@@ -1,7 +1,6 @@
 ﻿@inject HttpClient httpClient
 
 <div class="container">
-    <CreateEnergyRessourceComponent/>
     <div class="UserInfoComponentContainer">
         <CascadingValue Value="MarketHubConnection" Name="MarketHubConnection">
             <UserInfoComponent />
@@ -45,7 +44,7 @@
             new ConsumeRessource
             {
                 Name = "Tesla Charging",
-                kWh = 400
+                kWh = 100
             },
             new ConsumeRessource
             {

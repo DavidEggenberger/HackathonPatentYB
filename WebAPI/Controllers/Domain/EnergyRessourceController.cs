@@ -59,7 +59,7 @@ namespace WebAPI.Controllers.Domain
                 {
                     TimeCreated = DateTime.Now,
                     Location = energyRessourceDTO.Location,
-                    DurationInDays = energyRessourceDTO.Duration,
+                    DurationInDays = 5,
                     ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
                     ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
                     PricePerkWh = energyRessourceDTO.PricekWh,
@@ -74,7 +74,7 @@ namespace WebAPI.Controllers.Domain
                 ApplicationUser applicationUser = await userManager.FindByIdAsync(HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 EnergyRessource energyRessource = new EnergyRessource()
                 {
-                    DurationInDays = energyRessourceDTO.Duration,
+                    DurationInDays = 5,
                     ProductionDayRainnykWh = energyRessourceDTO.ProductionDayRainnykWh,
                     ProductionDaySunnykWh = energyRessourceDTO.ProductionDaySunnykWh,
                     PricePerkWh = energyRessourceDTO.PricekWh,
