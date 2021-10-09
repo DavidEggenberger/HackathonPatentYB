@@ -11,7 +11,7 @@ namespace WebAPI.Hubs
     {
         public async Task BuySell(BuySellOrderDTO buySellOrderDTO)
         {
-            await Clients.All.SendAsync("MarketUpdate", );
+            //await Clients.All.SendAsync("MarketUpdate", );
         }
     }
 }

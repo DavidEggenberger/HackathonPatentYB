@@ -20,7 +20,13 @@ namespace WebAPI
             IHost host = CreateHostBuilder(args).Build();
             using IServiceScope serviceScope = host.Services.CreateScope();
             ApplicationDbContext appDbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
+            if(appDbContext.Markets.Count() == 0)
+            {
+                appDbContext.Markets.Add(new Domain.Market
+                {
+                    
+                });
+            }
 
             host.Run();
         }

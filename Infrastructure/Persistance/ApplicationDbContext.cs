@@ -11,6 +11,7 @@ namespace Infrastructure.Persistance
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
     {
+        public DbSet<Market> Markets { get; set; }
         public DbSet<EnergyRessource> EnergyRessources { get; set; }
         public ApplicationDbContext(
            DbContextOptions options,
