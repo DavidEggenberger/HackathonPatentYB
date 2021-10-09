@@ -15,6 +15,7 @@ namespace WebClient.Diagrams.Nodes
         private HttpClient httpClient;
         public UserNode(HttpClient httpClient, Blazor.Diagrams.Core.Geometry.Point position = null) : base(position)
         {
+            AddPort(new ColumnPort(this, PortAlignment.Top));
             AddPort(new ColumnPort(this, PortAlignment.Bottom));
             this.httpClient = httpClient;
         }

@@ -1,10 +1,36 @@
-﻿.diagramContainer{
-    height: calc(100% - 140px);
-    width: 100%;
-}
-.container{
+﻿.container{
     height: calc(100% - 30px);
 }
 .UserInfoComponentContainer{
     
+}
+.diagramSection {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    height: calc(100% - 50px);
+    width: 100%;
+}
+.diagramContainer{
+    height: 100%;
+}
+aside{
+    margin-top: 30px;
+    margin-right: 10px;
+    border: 3px solid purple;
+    border-radius: 5px;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+section{
+    border: 3px solid purple;
+    border-radius: 5px;
+    color: purple;
+    margin-bottom: 15px;
+    padding: 5px;
+    font-size: 16px;
+}
+h3{
+    margin: 0;
 }

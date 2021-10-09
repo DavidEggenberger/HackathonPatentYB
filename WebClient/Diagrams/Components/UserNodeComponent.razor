@@ -1,37 +1,67 @@
 ﻿@inject HttpClient httpClient
 
 <style>
-    .card{
+    .card {
         border: 3px solid purple;
         border-radius: 5px;
         height: 160px;
-        width: 80px;
+        width: 120px;
+        color: purple;
+        padding: 2px;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        position: relative;
+    }
+    .port {
+        height: 10px;
+        width: 20px;
+        background-color: purple;
+        border-radius: 50%;
+        cursor: pointer;
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+    .port.bottom{
+        position: absolute;
+        bottom: -10px;
+        left: 55px;
+    }
+    .port.top {
+        position: absolute;
+        top: -10px;
+        left: 55px;
+        transform: rotate(180deg);
     }
 </style>
 
 <div class="card">
     <div class="card-body">
-        <h2>YOU</h2>
+        <label>You need: kWh</label>
+        <AuthorizeView>
+            <img width="70" src="@context.User.Claims.First(c => c.Type == "picture").Value" />
+        </AuthorizeView>
     </div>
-    <div style="width: 100%; display: grid; place-items: center;">
-        @foreach (var port in Node.Ports)
-        {
-            <!-- Default ports -->
-            <PortRenderer Port="port" />
-        }
-    </div>
+    @foreach (var port in Node.Ports)
+    {
+        <PortRenderer Port="port" />
+    }
 </div>
 
 
 @code{
     [CascadingParameter(Name = "hubConnection")]
     public HubConnection hubConnection { get; set; }
-    
+
     [Parameter]
     public UserNode Node { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        
+
     }
 }

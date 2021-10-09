@@ -4,10 +4,20 @@
     <div class="UserInfoComponentContainer">
         <UserInfoComponent/>
     </div>
-    <div class="diagramContainer">
-        <CascadingValue Value="diagram">
-            <DiagramCanvas></DiagramCanvas>
-        </CascadingValue>
+    <div class="diagramSection">
+        <aside>
+            @foreach (var item in consumeRessources)
+            {
+                <section draggable="true" @ondragstart="() => DragStart(item)">
+                    <h3>@item.Name</h3>
+                </section>
+            }
+        </aside>
+        <div class="diagramContainer" ondragover="event.preventDefault();" dropzone @ondrop="OnDrop">
+            <CascadingValue Value="diagram">
+                <DiagramCanvas></DiagramCanvas>
+            </CascadingValue>
+        </div>        
     </div> 
 </div>
 
@@ -21,9 +31,31 @@
     private ApplicationUserDTO currentUserDTO = new ApplicationUserDTO();
     private List<ApplicationUserDTO> applicationUserDTOs = new List<ApplicationUserDTO>();
     private List<EnergyRessourceDTO> energyRessourceDTOs = new List<EnergyRessourceDTO>();
+    private List<ConsumeRessource> consumeRessources = new List<ConsumeRessource>();
+
+    private ConsumeRessource draggedEnergyRessourceDTO;
 
     protected override async Task OnInitializedAsync()
     {
+        consumeRessources = new List<ConsumeRessource>
+        {
+            new ConsumeRessource
+            {
+                Name = "Tesla Charging",
+                kWh = 400
+            },
+            new ConsumeRessource
+            {
+                Name = "Using the Computer",
+                kWh = 30
+            },
+            new ConsumeRessource
+            {
+                Name = "Garden Lightning",
+                kWh = 40
+            }
+        };
+
         var options = new DiagramOptions
         {
             DeleteKey = "Delete",
@@ -50,6 +82,7 @@
         };
         diagram.RegisterModelComponent<EnergyRessourceNode, EnergyRessourceNodeComponent>();
         diagram.RegisterModelComponent<UserNode, UserNodeComponent>();
+        diagram.RegisterModelComponent<ConsumeRessourceNode, ConsumeRessourceComponent>();
 
         await GetData();
 
@@ -59,9 +92,7 @@
             diagram.Nodes.Add(new EnergyRessourceNode(new Point(count++ * 100, 20)));
         }
 
-        diagram.Nodes.Add(new UserNode(httpClient, new Point(20, 30)) { ApplicationUser = currentUserDTO });
-
-
+        diagram.Nodes.Add(new UserNode(httpClient, new Point((diagram.Container.Width / 2) - 60, (diagram.Container.Height / 2) - 40)) { ApplicationUser = currentUserDTO });
 
         HubConnection.On("Update", async () =>
         {
@@ -75,5 +106,22 @@
         currentUserDTO = await httpClient.GetFromJsonAsync<ApplicationUserDTO>("/api/applicationUser");
         applicationUserDTOs = await httpClient.GetFromJsonAsync<List<ApplicationUserDTO>>("/api/applicationUser/all");
         energyRessourceDTOs = await httpClient.GetFromJsonAsync<List<EnergyRessourceDTO>>("/api/energyRessource/allOffers");
+    }
+    public void OnDrop(DragEventArgs e)
+    {
+        var position = diagram.GetRelativeMousePoint(e.ClientX, e.ClientY);
+        NodeModel nodeModelToAdd = new ConsumeRessourceNode(new Point(position.X, position.Y)) { Ressource = draggedEnergyRessourceDTO };
+        diagram.Nodes.Add(nodeModelToAdd);      
+        draggedEnergyRessourceDTO = null;
+    }
+    public void DragStart(ConsumeRessource energyRessourceDTO)
+    {
+        draggedEnergyRessourceDTO = energyRessourceDTO;
+    }
+
+    public class ConsumeRessource
+    {
+        public string Name { get; set; }
+        public decimal kWh { get; set; }
     }
 }
