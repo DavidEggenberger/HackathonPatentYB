@@ -2,7 +2,9 @@
 
 <div class="container">
     <div class="UserInfoComponentContainer">
-        <UserInfoComponent/>
+        <CascadingValue Value="MarketHubConnection" Name="MarketHubConnection">
+            <UserInfoComponent />
+        </CascadingValue>
     </div>
     <div class="diagramSection">
         <aside>
@@ -98,7 +100,7 @@
         int count = 1;
         foreach (var ressource in energyRessourceDTOs)
         {
-            diagram.Nodes.Add(new EnergyRessourceNode(new Point(count++ * 100, 20)) { Ressource = ressource });
+            diagram.Nodes.Add(new EnergyRessourceNode(new Point(count++ * 160, 20)) { Ressource = ressource });
         }
 
         diagram.Nodes.Add(new UserNode(httpClient, new Point((diagram.Container.Width / 2) - 60, (diagram.Container.Height / 2) - 40)) { ApplicationUser = currentUserDTO });

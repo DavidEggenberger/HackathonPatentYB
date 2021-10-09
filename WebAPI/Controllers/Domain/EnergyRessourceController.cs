@@ -84,10 +84,17 @@ namespace WebAPI.Controllers.Domain
 
             Market market = applicationDbContext.Markets.First();
             market.Demanded += (energyRessourceDTO.ProductionDayRainnykWh + energyRessourceDTO.ProductionDaySunnykWh + energyRessourceDTO.ProductionNightkWh) / 3;
+            market.MovingUp = true;
             await marketHub.Clients.All.SendAsync("MarketUpdate", new MarketDTO { Demanded = market.Demanded, Supplied = market.Supplied, MovingUp = false });
 
             await applicationDbContext.SaveChangesAsync();
             return Ok();
+        }
+        [HttpGet("market")]
+        public async Task<ActionResult> GetMarket()
+        {
+            Market market = applicationDbContext.Markets.First();
+            return Ok(new MarketDTO { Demanded = market.Demanded, Supplied = market.Supplied, MovingUp = market.MovingUp });
         }
         [HttpPost("buyEnergyRessource/{energyRessourceId}")]
         public async Task<ActionResult> BuyEnergyRessource(Guid energyRessourceId)

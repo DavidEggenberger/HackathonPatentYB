@@ -9,6 +9,7 @@ namespace Domain
     public class Market
     {
         public Guid Id { get; set; }
+        public bool MovingUp { get; set; }
         public decimal Supplied { get; set; }
         public decimal Demanded { get; set; }
     }

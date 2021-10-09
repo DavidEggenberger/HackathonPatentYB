@@ -1,22 +1,52 @@
 ﻿@inject HttpClient httpClient
+@inject NavigationManager NavigationManager
+@inject IAccessTokenProvider tokenProvider
 
 <div class="userInfoComponentContainer">
     <div class="header">
         <h5>Your Tokens: @currentUserDTO.Tokens</h5>
-        <h5>Market Demand: </h5>
-        <h5>Market Supply: </h5>
+        <h5>Market Development: <img height="30" src="@(marketDTO.MovingUp ? "/up.png" : "/down.png")" /></h5>
+        <h5>Market Demand: @marketDTO.Demanded</h5>
+        <h5>Market Supply: @marketDTO.Supplied</h5>
     </div>
 </div>
 
 @code{
-    [Parameter]
-    public HubConnection MarketHubConnection { get; set; }
+    private HubConnection MarketHubConnection { get; set; }
 
     private ApplicationUserDTO currentUserDTO = new ApplicationUserDTO();
+    private MarketDTO marketDTO = new MarketDTO();
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        marketDTO = await httpClient.GetFromJsonAsync<MarketDTO>("/api/energyRessource/market");
+        ClaimsPrincipal cp;
+        if ((cp = (await AuthState).User).Identity.IsAuthenticated)
+        {
+            AccessToken token = new AccessToken();
+
+            (await tokenProvider.RequestAccessToken()).TryGetToken(out token);
+
+            if (token is not null)
+            {
+                MarketHubConnection = new HubConnectionBuilder()
+                .WithUrl(NavigationManager.ToAbsoluteUri("/markethub"), options =>
+                {
+                    options.AccessTokenProvider = async () => token.Value;
+                })
+                .Build();
+                await MarketHubConnection.StartAsync();
+            }
+        }
         await Refresh();
+        MarketHubConnection.On<MarketDTO>("MarketUpdate", marketUpdateDTO =>
+        {
+            marketDTO = marketUpdateDTO;
+            StateHasChanged();
+        });
     }
 
     public async Task Refresh()

@@ -21,6 +21,14 @@ namespace WebAPI.Hubs
             Market market = applicationDbContext.Markets.First();
             market.Supplied += buySellOrderDTO.Supplied;
             market.Demanded += buySellOrderDTO.Demanded;
+            if(buySellOrderDTO.Demanded > buySellOrderDTO.Supplied)
+            {
+                market.MovingUp = true;
+            }
+            else
+            {
+                market.MovingUp = false;
+            }
             await applicationDbContext.SaveChangesAsync();
             await Clients.All.SendAsync("MarketUpdate", new MarketDTO { Demanded = market.Demanded, Supplied = market.Supplied, MovingUp = buySellOrderDTO.Demanded > buySellOrderDTO.Supplied ? true : false });
         }
